@@ -1,5 +1,6 @@
 target/
 dist/
+release/
 dependency-reduced-pom.xml
 *.class
 *.log
