@@ -4,6 +4,7 @@ release/
 dependency-reduced-pom.xml
 *.class
 *.log
+*.exe
 .idea/
 *.iml
 .project
