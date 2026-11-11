@@ -21,6 +21,7 @@ public class SettingsDialog {
         private int relayPort = 2112;
         private boolean useTls = true;
         private String customPassword = "";
+        private boolean showFloatingBanner = false;
 
         public AppSettings() {}
 
@@ -32,6 +33,8 @@ public class SettingsDialog {
         public void setUseTls(boolean useTls) { this.useTls = useTls; }
         public String getCustomPassword() { return customPassword; }
         public void setCustomPassword(String customPassword) { this.customPassword = customPassword; }
+        public boolean isShowFloatingBanner() { return showFloatingBanner; }
+        public void setShowFloatingBanner(boolean showFloatingBanner) { this.showFloatingBanner = showFloatingBanner; }
     }
 
     public static void show(Stage owner, AppSettings currentSettings, Consumer<AppSettings> onSave) {
@@ -85,7 +88,22 @@ public class SettingsDialog {
         secGrid.add(new Label("(Allows unattended access with static password)"), 1, 1);
         secTab.setContent(secGrid);
 
-        tabPane.getTabs().addAll(networkTab, secTab);
+        // 3. Display Tab
+        Tab displayTab = new Tab("Display");
+        displayTab.setClosable(false);
+        GridPane dispGrid = new GridPane();
+        dispGrid.setHgap(10);
+        dispGrid.setVgap(10);
+        dispGrid.setPadding(new Insets(15));
+
+        CheckBox bannerCheck = new CheckBox("Show floating session banner on screen");
+        bannerCheck.setSelected(currentSettings.isShowFloatingBanner());
+
+        dispGrid.add(bannerCheck, 0, 0);
+        dispGrid.add(new Label("(Shows a small overlay at bottom-right during remote control)"), 0, 1);
+        displayTab.setContent(dispGrid);
+
+        tabPane.getTabs().addAll(networkTab, secTab, displayTab);
 
         // Buttons
         HBox btnBox = new HBox(10);
@@ -99,6 +117,7 @@ public class SettingsDialog {
                 currentSettings.setRelayPort(Integer.parseInt(portField.getText().trim()));
                 currentSettings.setUseTls(tlsCheck.isSelected());
                 currentSettings.setCustomPassword(customPwdField.getText().trim());
+                currentSettings.setShowFloatingBanner(bannerCheck.isSelected());
                 if (onSave != null) onSave.accept(currentSettings);
                 dialog.close();
             } catch (NumberFormatException ex) {

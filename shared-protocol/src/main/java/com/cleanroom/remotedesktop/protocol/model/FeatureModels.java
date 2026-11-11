@@ -182,3 +182,4 @@ public class FeatureModels {
         public void setPongTimestamp(long pongTimestamp) { this.pongTimestamp = pongTimestamp; }
     }
 }
+

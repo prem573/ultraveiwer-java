@@ -228,3 +228,4 @@ public class ViewerSession {
     public void setOnFileListReceived(Consumer<FileListResp> onFileListReceived) { this.onFileListReceived = onFileListReceived; }
     public void setOnSessionTerminated(Runnable onSessionTerminated) { this.onSessionTerminated = onSessionTerminated; }
 }
+

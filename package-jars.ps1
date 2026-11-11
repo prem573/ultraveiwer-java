@@ -28,3 +28,4 @@ Write-Host "Created Relay JAR:  $relayJarDest" -ForegroundColor Green
 Write-Host "`nAll runnable JARs are ready in the 'release/' folder!" -ForegroundColor Cyan
 Write-Host "Run Client: java -jar release/remote-desktop-client.jar"
 Write-Host "Run Relay:  java -jar release/remote-desktop-relay.jar"
+

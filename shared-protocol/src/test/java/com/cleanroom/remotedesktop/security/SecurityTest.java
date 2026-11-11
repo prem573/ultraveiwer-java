@@ -61,3 +61,4 @@ public class SecurityTest {
         assertTrue(limiter.isAllowed(ip));
     }
 }
+

@@ -101,7 +101,7 @@ public class HostFloatingBanner {
             stage.setY(screenBounds.getMaxY() - 125);
 
             stage.setOnCloseRequest(e -> {
-                e.consume(); // Cannot close by pressing X; must click Disconnect!
+                hide();
             });
 
             stage.show();
@@ -121,3 +121,4 @@ public class HostFloatingBanner {
         });
     }
 }
+

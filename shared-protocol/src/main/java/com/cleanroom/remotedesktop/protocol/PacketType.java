@@ -57,3 +57,4 @@ public enum PacketType {
         throw new IllegalArgumentException("Unknown packet code: 0x" + Integer.toHexString(code & 0xFFFF));
     }
 }
+

@@ -92,3 +92,4 @@ public class InputModels {
         public void setActionType(ActionType actionType) { this.actionType = actionType; }
     }
 }
+

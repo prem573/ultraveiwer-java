@@ -196,3 +196,4 @@ public class RobotScreenCaptureService implements ScreenCaptureService {
         robot = null;
     }
 }
+

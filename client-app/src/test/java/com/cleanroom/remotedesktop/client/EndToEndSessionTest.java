@@ -114,3 +114,4 @@ public class EndToEndSessionTest {
         assertFalse(hostAgent.isInSession(), "Host session should be terminated after disconnect");
     }
 }
+

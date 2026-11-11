@@ -124,3 +124,4 @@ public class ScreenModels {
         public void setSelectedMonitor(int selectedMonitor) { this.selectedMonitor = selectedMonitor; }
     }
 }
+

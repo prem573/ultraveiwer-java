@@ -12,3 +12,4 @@ public interface InputInjectionService {
     boolean isViewOnly();
     void setScreenDimensions(int width, int height);
 }
+

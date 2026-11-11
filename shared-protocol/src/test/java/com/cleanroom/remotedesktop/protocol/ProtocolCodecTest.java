@@ -44,3 +44,4 @@ public class ProtocolCodecTest {
         assertEquals("Host registered successfully", deserialized.getMessage());
     }
 }
+

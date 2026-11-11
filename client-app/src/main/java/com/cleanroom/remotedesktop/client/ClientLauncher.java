@@ -7,3 +7,4 @@ public class ClientLauncher {
         Application.launch(ClientApp.class, args);
     }
 }
+

@@ -12,3 +12,4 @@ public class ClientApp extends Application {
         mainWindow.initAndShow();
     }
 }
+

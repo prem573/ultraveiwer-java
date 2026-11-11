@@ -153,3 +153,4 @@ To achieve low bandwidth and high responsiveness:
 - Dedicated message types `FILE_LIST_REQ`/`FILE_LIST_RESP` allow browsing remote directory contents.
 - Files are transmitted in sequenced chunks (`FILE_CHUNK` of 64 KB) with rolling hash acknowledgment (`FILE_ACK`).
 - Files are saved with `.part` extensions until the final chunk is verified against the complete file SHA-256 hash.
+

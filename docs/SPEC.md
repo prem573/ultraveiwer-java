@@ -167,3 +167,4 @@ The system comprises three primary functional roles:
 ## 6. Known Unknowns & System Limitations
 1. **Low-Level Windows UAC / Secure Desktop Injection**: Pure Java (`java.awt.Robot`) runs in user session and cannot inject input into Windows Secure Desktop (e.g. UAC prompts or Ctrl+Alt+Del winlogon screen) without a Windows Service or elevated UIPI bypass helper. This is documented as a known design boundary; our core implementation will focus on user-session remote control with an upgrade path to a native helper process.
 2. **Direct P2P UDP Hole Punching vs. Relay**: UltraViewer primarily routes through central relay servers (ports 443 / 2112) with optional direct TCP fallback. Our implementation will deploy a Netty-based relay server, which guarantees traversal through all firewalls and NATs.
+

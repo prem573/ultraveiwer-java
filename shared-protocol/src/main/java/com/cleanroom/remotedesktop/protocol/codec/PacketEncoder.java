@@ -28,3 +28,4 @@ public class PacketEncoder extends MessageToByteEncoder<Packet> {
         }
     }
 }
+

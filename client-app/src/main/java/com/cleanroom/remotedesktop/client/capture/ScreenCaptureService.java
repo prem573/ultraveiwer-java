@@ -13,3 +13,4 @@ public interface ScreenCaptureService {
     int getMonitorCount();
     void close();
 }
+

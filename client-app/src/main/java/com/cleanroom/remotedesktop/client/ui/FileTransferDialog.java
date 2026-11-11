@@ -256,3 +256,4 @@ public class FileTransferDialog {
         return String.format("%.1f %cB", bytes / Math.pow(1024, exp), pre);
     }
 }
+

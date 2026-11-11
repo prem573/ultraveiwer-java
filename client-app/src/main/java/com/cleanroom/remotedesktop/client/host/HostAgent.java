@@ -317,3 +317,4 @@ public class HostAgent {
     public void setOnSessionStateChanged(Consumer<Boolean> listener) { this.onSessionStateChanged = listener; }
     public void setOnChatMessageReceived(Consumer<ChatMessage> listener) { this.onChatMessageReceived = listener; }
 }
+

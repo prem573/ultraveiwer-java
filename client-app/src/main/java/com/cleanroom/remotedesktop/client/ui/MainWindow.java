@@ -36,6 +36,7 @@ public class MainWindow {
     private TextField passwordField;
     private Circle statusDot;
     private Label statusLabel;
+    private Button hostDisconnectBtn;
 
     // Right Pane UI Controls
     private TextField partnerIdField;
@@ -247,7 +248,20 @@ public class MainWindow {
         statusLabel.setFont(Font.font("Segoe UI", 12));
         statusLabel.setTextFill(Color.web("#64748b"));
 
-        bar.getChildren().addAll(statusDot, statusLabel);
+        Region spacer = new Region();
+        HBox.setHgrow(spacer, Priority.ALWAYS);
+
+        hostDisconnectBtn = new Button("Disconnect Partner");
+        hostDisconnectBtn.setFont(Font.font("Segoe UI", FontWeight.BOLD, 11));
+        hostDisconnectBtn.setStyle("-fx-background-color: #ef4444; -fx-text-fill: white; -fx-padding: 3 10; -fx-background-radius: 4; -fx-cursor: hand;");
+        hostDisconnectBtn.setVisible(false);
+        hostDisconnectBtn.setOnAction(e -> {
+            if (hostAgent != null) {
+                hostAgent.disconnectSession();
+            }
+        });
+
+        bar.getChildren().addAll(statusDot, statusLabel, spacer, hostDisconnectBtn);
         return bar;
     }
 
@@ -283,12 +297,20 @@ public class MainWindow {
                 // Host active session state
                 hostAgent.setOnSessionStateChanged(active -> Platform.runLater(() -> {
                     if (active) {
-                        hostFloatingBanner.show(hostAgent.getActivePartnerId(), () -> {
-                            hostAgent.disconnectSession();
-                        }, () -> {
-                            // Chat trigger
-                        });
+                        statusDot.setFill(Color.web("#22c55e"));
+                        statusLabel.setText("Active: Controlled by " + hostAgent.getActivePartnerId());
+                        hostDisconnectBtn.setVisible(true);
+                        if (settings.isShowFloatingBanner()) {
+                            hostFloatingBanner.show(hostAgent.getActivePartnerId(), () -> {
+                                hostAgent.disconnectSession();
+                            }, () -> {
+                                // Chat trigger
+                            });
+                        }
                     } else {
+                        statusDot.setFill(Color.web("#22c55e"));
+                        statusLabel.setText("Ready to connect (Host ID: " + hostAgent.getHostId() + ")");
+                        hostDisconnectBtn.setVisible(false);
                         hostFloatingBanner.hide();
                     }
                 }));
@@ -351,3 +373,4 @@ public class MainWindow {
         if (networkManager != null) networkManager.disconnect();
     }
 }
+
