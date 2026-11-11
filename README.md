@@ -137,3 +137,4 @@ This project was developed strictly following **clean-room software engineering*
 ## 📜 License
 
 This project is licensed under the MIT License.
+
