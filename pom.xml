@@ -26,11 +26,23 @@
         <javafx.version>21.0.5</javafx.version>
         <slf4j.version>2.0.16</slf4j.version>
         <logback.version>1.5.12</logback.version>
+        <bouncycastle.version>1.79</bouncycastle.version>
         <junit.version>5.11.3</junit.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
+            <!-- Bouncy Castle for TLS cert generation on modern JDKs -->
+            <dependency>
+                <groupId>org.bouncycastle</groupId>
+                <artifactId>bcpkix-jdk18on</artifactId>
+                <version>${bouncycastle.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bouncycastle</groupId>
+                <artifactId>bcprov-jdk18on</artifactId>
+                <version>${bouncycastle.version}</version>
+            </dependency>
             <!-- Netty -->
             <dependency>
                 <groupId>io.netty</groupId>
