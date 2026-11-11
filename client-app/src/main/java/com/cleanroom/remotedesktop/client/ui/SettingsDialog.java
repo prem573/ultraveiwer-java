@@ -17,7 +17,7 @@ import java.util.function.Consumer;
 public class SettingsDialog {
 
     public static class AppSettings {
-        private String relayHost = "127.0.0.1";
+        private String relayHost = "193.203.160.121";
         private int relayPort = 2112;
         private boolean useTls = true;
         private String customPassword = "";
@@ -119,3 +119,4 @@ public class SettingsDialog {
         dialog.show();
     }
 }
+
