@@ -48,6 +48,7 @@ public class HostAgent {
     private String currentNonce;
     private ScheduledExecutorService captureExecutor;
     private long frameSequence = 0;
+    private boolean requireConfirmationPrompt = false;
 
     // UI Callbacks
     private Consumer<String> onHostIdAssigned;
@@ -135,10 +136,11 @@ public class HostAgent {
         }
 
         rateLimiter.reset(partnerId);
-        log.info("Password authenticated for partner ID: {}. Triggering MANDATORY host consent prompt...", partnerId);
+        log.info("Password authenticated for partner ID: {}", partnerId);
 
-        // Mandatory Consent Prompt
-        if (consentPromptHandler != null) {
+        // If configured to prompt host, show prompt dialog; otherwise directly connect
+        if (requireConfirmationPrompt && consentPromptHandler != null) {
+            log.info("Confirmation prompt enabled; prompting host user for Partner ID: {}", partnerId);
             consentPromptHandler.accept(partnerId, allowed -> {
                 if (Boolean.TRUE.equals(allowed)) {
                     acceptSession(partnerId);
@@ -147,9 +149,9 @@ public class HostAgent {
                 }
             });
         } else {
-            // Default safe action: If no consent UI is attached, reject!
-            log.warn("No consent prompt handler registered; rejecting session by default for safety.");
-            rejectSession("Host machine denied remote connection request.");
+            // Direct connect: password verified successfully, immediately start session
+            log.info("Direct connection approved for authenticated Partner ID: {}", partnerId);
+            acceptSession(partnerId);
         }
     }
 
@@ -314,6 +316,8 @@ public class HostAgent {
 
     public void setOnHostIdAssigned(Consumer<String> onHostIdAssigned) { this.onHostIdAssigned = onHostIdAssigned; }
     public void setConsentPromptHandler(BiConsumer<String, Consumer<Boolean>> handler) { this.consentPromptHandler = handler; }
+    public boolean isRequireConfirmationPrompt() { return requireConfirmationPrompt; }
+    public void setRequireConfirmationPrompt(boolean requireConfirmationPrompt) { this.requireConfirmationPrompt = requireConfirmationPrompt; }
     public void setOnSessionStateChanged(Consumer<Boolean> listener) { this.onSessionStateChanged = listener; }
     public void setOnChatMessageReceived(Consumer<ChatMessage> listener) { this.onChatMessageReceived = listener; }
 }

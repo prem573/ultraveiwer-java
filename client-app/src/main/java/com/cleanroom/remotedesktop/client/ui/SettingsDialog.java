@@ -22,6 +22,7 @@ public class SettingsDialog {
         private boolean useTls = true;
         private String customPassword = "";
         private boolean showFloatingBanner = false;
+        private boolean requireConfirmationPrompt = false;
 
         public AppSettings() {}
 
@@ -35,6 +36,8 @@ public class SettingsDialog {
         public void setCustomPassword(String customPassword) { this.customPassword = customPassword; }
         public boolean isShowFloatingBanner() { return showFloatingBanner; }
         public void setShowFloatingBanner(boolean showFloatingBanner) { this.showFloatingBanner = showFloatingBanner; }
+        public boolean isRequireConfirmationPrompt() { return requireConfirmationPrompt; }
+        public void setRequireConfirmationPrompt(boolean requireConfirmationPrompt) { this.requireConfirmationPrompt = requireConfirmationPrompt; }
     }
 
     public static void show(Stage owner, AppSettings currentSettings, Consumer<AppSettings> onSave) {
@@ -86,6 +89,11 @@ public class SettingsDialog {
         secGrid.add(new Label("Custom Password:"), 0, 0);
         secGrid.add(customPwdField, 1, 0);
         secGrid.add(new Label("(Allows unattended access with static password)"), 1, 1);
+
+        CheckBox promptCheck = new CheckBox("Always prompt to accept/reject incoming connections");
+        promptCheck.setSelected(currentSettings.isRequireConfirmationPrompt());
+        secGrid.add(promptCheck, 1, 2);
+
         secTab.setContent(secGrid);
 
         // 3. Display Tab
@@ -117,6 +125,7 @@ public class SettingsDialog {
                 currentSettings.setRelayPort(Integer.parseInt(portField.getText().trim()));
                 currentSettings.setUseTls(tlsCheck.isSelected());
                 currentSettings.setCustomPassword(customPwdField.getText().trim());
+                currentSettings.setRequireConfirmationPrompt(promptCheck.isSelected());
                 currentSettings.setShowFloatingBanner(bannerCheck.isSelected());
                 if (onSave != null) onSave.accept(currentSettings);
                 dialog.close();

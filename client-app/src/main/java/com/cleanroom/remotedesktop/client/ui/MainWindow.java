@@ -279,6 +279,7 @@ public class MainWindow {
 
                 hostAgent = new HostAgent(networkManager);
                 hostAgent.setCustomPassword(settings.getCustomPassword());
+                hostAgent.setRequireConfirmationPrompt(settings.isRequireConfirmationPrompt());
 
                 // Set callback for Host ID
                 hostAgent.setOnHostIdAssigned(assignedId -> Platform.runLater(() -> {

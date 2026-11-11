@@ -50,8 +50,9 @@ public class EndToEndSessionTest {
         BlockingQueue<String> hostIdQueue = new LinkedBlockingQueue<>();
         hostAgent.setOnHostIdAssigned(hostIdQueue::offer);
 
-        // Mandatory consent callback: simulate user clicking "Allow"
+        // Consent callback: simulate user clicking "Allow" when prompt is enabled
         AtomicBoolean consentPromptTriggered = new AtomicBoolean(false);
+        hostAgent.setRequireConfirmationPrompt(true);
         hostAgent.setConsentPromptHandler((partnerId, callback) -> {
             consentPromptTriggered.set(true);
             callback.accept(true); // User allowed
