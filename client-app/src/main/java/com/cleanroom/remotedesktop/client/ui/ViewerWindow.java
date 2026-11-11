@@ -72,6 +72,7 @@ public class ViewerWindow {
             // 2. Center Viewport
             canvas = new Canvas(remoteWidth, remoteHeight);
             gc = canvas.getGraphicsContext2D();
+            gc.setImageSmoothing(true);
             gc.setFill(Color.BLACK);
             gc.fillRect(0, 0, remoteWidth, remoteHeight);
 
@@ -100,6 +101,7 @@ public class ViewerWindow {
 
             Scene scene = new Scene(root, 1280, 720);
             stage.setScene(scene);
+            stage.setMaximized(true);
 
             stage.setOnCloseRequest(e -> {
                 session.disconnect();
@@ -111,6 +113,9 @@ public class ViewerWindow {
 
             stage.show();
             canvas.requestFocus();
+
+            // Request initial High Quality (90% JPEG) for crystal-clear remote display
+            session.sendQualitySettings(new QualitySettings(QualitySettings.QualityMode.QUALITY, 0.90f, 25, 0));
         });
     }
 
@@ -150,20 +155,25 @@ public class ViewerWindow {
         fullScreenItem.setOnAction(e -> stage.setFullScreen(fullScreenItem.isSelected()));
 
         Menu qualitySubMenu = new Menu("Quality");
-        RadioMenuItem speedItem = new RadioMenuItem("Optimize Speed (Low JPEG)");
-        RadioMenuItem qualityItem = new RadioMenuItem("Optimize Quality (High JPEG)");
-        RadioMenuItem autoItem = new RadioMenuItem("Auto Select");
-        autoItem.setSelected(true);
+        RadioMenuItem ultraItem = new RadioMenuItem("Ultra HD (95% - Crystal Clear)");
+        RadioMenuItem highItem = new RadioMenuItem("High Quality (90% - Sharp Text)");
+        RadioMenuItem balancedItem = new RadioMenuItem("Balanced (75%)");
+        RadioMenuItem speedItem = new RadioMenuItem("Optimize Speed (50% - Low Bandwidth)");
+
         ToggleGroup qualityGroup = new ToggleGroup();
+        ultraItem.setToggleGroup(qualityGroup);
+        highItem.setToggleGroup(qualityGroup);
+        balancedItem.setToggleGroup(qualityGroup);
         speedItem.setToggleGroup(qualityGroup);
-        qualityItem.setToggleGroup(qualityGroup);
-        autoItem.setToggleGroup(qualityGroup);
 
-        speedItem.setOnAction(e -> session.sendQualitySettings(new QualitySettings(QualitySettings.QualityMode.SPEED, 0.40f, 30, 0)));
-        qualityItem.setOnAction(e -> session.sendQualitySettings(new QualitySettings(QualitySettings.QualityMode.QUALITY, 0.85f, 15, 0)));
-        autoItem.setOnAction(e -> session.sendQualitySettings(new QualitySettings(QualitySettings.QualityMode.AUTO, 0.65f, 25, 0)));
+        highItem.setSelected(true);
 
-        qualitySubMenu.getItems().addAll(autoItem, speedItem, qualityItem);
+        ultraItem.setOnAction(e -> session.sendQualitySettings(new QualitySettings(QualitySettings.QualityMode.QUALITY, 0.95f, 25, 0)));
+        highItem.setOnAction(e -> session.sendQualitySettings(new QualitySettings(QualitySettings.QualityMode.QUALITY, 0.90f, 25, 0)));
+        balancedItem.setOnAction(e -> session.sendQualitySettings(new QualitySettings(QualitySettings.QualityMode.AUTO, 0.75f, 25, 0)));
+        speedItem.setOnAction(e -> session.sendQualitySettings(new QualitySettings(QualitySettings.QualityMode.SPEED, 0.50f, 30, 0)));
+
+        qualitySubMenu.getItems().addAll(ultraItem, highItem, balancedItem, speedItem);
         displayMenu.getItems().addAll(bestScaledItem, fullScreenItem, new SeparatorMenuItem(), qualitySubMenu);
 
         // Buttons
@@ -277,6 +287,7 @@ public class ViewerWindow {
                     java.awt.image.BufferedImage awtImage = ImageIO.read(bais);
                     if (awtImage != null) {
                         Image fxImage = SwingFXUtils.toFXImage(awtImage, null);
+                        gc.setImageSmoothing(true);
                         gc.drawImage(fxImage, tile.getX(), tile.getY(), tile.getWidth(), tile.getHeight());
                     }
                 } catch (Exception e) {

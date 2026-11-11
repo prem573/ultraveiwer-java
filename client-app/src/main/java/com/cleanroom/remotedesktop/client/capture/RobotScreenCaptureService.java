@@ -27,7 +27,7 @@ public class RobotScreenCaptureService implements ScreenCaptureService {
     private GraphicsDevice[] screenDevices;
     private int selectedMonitor = 0;
     private Rectangle captureBounds;
-    private float jpegQuality = 0.65f;
+    private float jpegQuality = 0.90f;
 
     private int gridCols;
     private int gridRows;
