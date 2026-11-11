@@ -44,6 +44,7 @@ if (-not (Test-Path $jarPath)) {
 Write-Host "Found standalone jar: $jarPath" -ForegroundColor Green
 
 # 4. Prepare output directory
+Stop-Process -Name CleanRoomRemoteDesktop -Force -ErrorAction SilentlyContinue
 $distDir = Join-Path $PSScriptRoot "dist"
 if (Test-Path $distDir) {
     Remove-Item -Recurse -Force $distDir
